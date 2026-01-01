@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import AdminSidebar from './AdminSidebar';
-import AdminPropertyForm from './AdminPropertyForm';
-import { Property } from '../../types';
-import { PencilIcon, TrashIcon } from '../icons';
+import AdminSidebar from './AdminSidebar.tsx';
+import AdminPropertyForm from './AdminPropertyForm.tsx';
+import { Property } from '../../types.ts';
+import { PencilIcon, TrashIcon } from '../icons.tsx';
 
 interface AdminDashboardProps {
     properties: Property[];

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HomeIcon, DashboardIcon, PlusIcon, LogoutIcon } from '../icons';
+import { HomeIcon, DashboardIcon, PlusIcon, LogoutIcon } from '../icons.tsx';
 
 interface AdminSidebarProps {
   onLogout: () => void;

@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { Property, ListingCategory } from '../types';
-import PropertyCard from './PropertyCard';
-import Spinner from './Spinner';
+import { Property, ListingCategory } from '../types.ts';
+import PropertyCard from './PropertyCard.tsx';
+import Spinner from './Spinner.tsx';
 
 interface PropertyListingsProps {
   properties: Property[];
@@ -14,7 +14,6 @@ const PropertyListings: React.FC<PropertyListingsProps> = ({ properties, onSelec
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Load favorites from localStorage
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => {
@@ -27,14 +26,12 @@ const PropertyListings: React.FC<PropertyListingsProps> = ({ properties, onSelec
         console.error("Failed to parse favorites from localStorage", error);
       }
       setIsLoading(false);
-    }, 1000); // Simulate network delay
+    }, 800);
 
     return () => clearTimeout(timer);
   }, []);
 
-  // Update localStorage when favorites change
   useEffect(() => {
-    // Don't save initial empty array to localStorage
     if (!isLoading) {
       localStorage.setItem('favoriteProperties', JSON.stringify(favorites));
     }

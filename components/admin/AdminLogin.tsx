@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { HomeIcon } from '../icons';
+import { HomeIcon } from '../icons.tsx';
 
 interface AdminLoginProps {
   onLogin: () => void;
@@ -12,8 +12,6 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would be a secure API call.
-    // For this demo, we use a simple hardcoded password.
     if (password === 'admin123') {
       onLogin();
     } else {

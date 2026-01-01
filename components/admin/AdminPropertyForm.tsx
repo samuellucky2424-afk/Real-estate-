@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Property, ListingCategory } from '../../types';
+import { Property, ListingCategory } from '../../types.ts';
 
 interface AdminPropertyFormProps {
   propertyToEdit?: Property | null;

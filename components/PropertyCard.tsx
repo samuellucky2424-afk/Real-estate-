@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Property } from '../types';
-import { HeartIcon, SolidHeartIcon } from './icons';
+import { Property } from '../types.ts';
+import { HeartIcon, SolidHeartIcon } from './icons.tsx';
 
 interface PropertyCardProps {
   property: Property;
@@ -12,7 +12,7 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, isFavorite, onToggleFavorite, onSelectProperty }) => {
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Stop event from bubbling up to the card's onClick
+    e.stopPropagation();
     onToggleFavorite(property.id);
   };
   
