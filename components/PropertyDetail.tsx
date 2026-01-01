@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Property, ListingCategory } from '../types';
+import { Property, ListingCategory } from '../types.ts';
 
 interface PropertyDetailProps {
   property: Property;

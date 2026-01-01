@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { HomeIcon, MenuIcon, XIcon } from './icons';
+import { HomeIcon, MenuIcon, XIcon } from './icons.tsx';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

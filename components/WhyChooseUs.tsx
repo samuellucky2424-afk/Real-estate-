@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ShieldCheckIcon, UsersIcon, ZapIcon } from './icons';
+import { ShieldCheckIcon, UsersIcon, ZapIcon } from './icons.tsx';
 
 const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
   <div className="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
