@@ -80,7 +80,7 @@ const App: React.FC = () => {
   const handleClearSelection = () => {
     setSelectedPropertyId(null);
   };
-  
+
   const selectedProperty = selectedPropertyId ? properties.find(p => p.id === selectedPropertyId) : null;
 
   switch (currentView) {
@@ -112,7 +112,10 @@ const App: React.FC = () => {
             ) : (
               <>
                 <Hero />
-                <PropertyListings properties={properties} onSelectProperty={handleSelectProperty} />
+                <PropertyListings 
+                  properties={properties} 
+                  onSelectProperty={handleSelectProperty}
+                />
                 <WhyChooseUs />
                 <About />
                 <Contact />

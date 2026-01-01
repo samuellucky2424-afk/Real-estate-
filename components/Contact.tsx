@@ -40,6 +40,10 @@ const Contact: React.FC = () => {
     
     setTimeout(() => setIsSubmitted(false), 5000);
   };
+  
+  const generalWhatsAppMessage = encodeURIComponent("Hello, I'm interested in a property.");
+  const generalWhatsAppLink = `https://wa.me/2348147133637?text=${generalWhatsAppMessage}`;
+
 
   return (
     <section id="contact" className="py-16 bg-white">
@@ -55,7 +59,7 @@ const Contact: React.FC = () => {
             <div className="space-y-4">
               <p className="flex items-center gap-4">
                 <span className="bg-brand-gold/10 p-3 rounded-full">📞</span>
-                <a href="tel:+2348012345678" className="text-slate-700 hover:text-brand-blue">+234 801 234 5678</a>
+                <a href="tel:+2348147133637" className="text-slate-700 hover:text-brand-blue">+234 814 713 3637</a>
               </p>
               <p className="flex items-center gap-4">
                 <span className="bg-brand-gold/10 p-3 rounded-full">📧</span>
@@ -66,7 +70,7 @@ const Contact: React.FC = () => {
                 <span className="text-slate-700">123 Luxury Avenue, Ikoyi, Lagos</span>
               </p>
             </div>
-            <a href="https://wa.me/2348012345678" target="_blank" rel="noopener noreferrer" className="mt-8 inline-block bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors">
+            <a href={generalWhatsAppLink} target="_blank" rel="noopener noreferrer" className="mt-8 inline-block bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors">
               Message on WhatsApp
             </a>
           </div>

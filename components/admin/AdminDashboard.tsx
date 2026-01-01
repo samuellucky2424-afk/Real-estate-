@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AdminSidebar from './AdminSidebar.tsx';
 import AdminPropertyForm from './AdminPropertyForm.tsx';
 import { Property } from '../../types.ts';
-import { PencilIcon, TrashIcon } from '../icons.tsx';
+import { PencilIcon, TrashIcon, MenuIcon, HomeIcon } from '../icons.tsx';
 
 interface AdminDashboardProps {
     properties: Property[];
@@ -18,6 +18,7 @@ type AdminView = 'dashboard' | 'add' | 'edit';
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onAddProperty, onUpdateProperty, onDeleteProperty, onLogout }) => {
     const [view, setView] = useState<AdminView>('dashboard');
     const [propertyToEdit, setPropertyToEdit] = useState<Property | null>(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const handleEditClick = (property: Property) => {
         setPropertyToEdit(property);
@@ -38,6 +39,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onAddProper
         setView('dashboard');
         setPropertyToEdit(null);
     };
+    
+    const handleSetView = (view: 'dashboard' | 'add') => {
+        setView(view);
+        setPropertyToEdit(null);
+        setIsSidebarOpen(false); // Close sidebar on navigation
+    };
 
     const renderView = () => {
         switch (view) {
@@ -48,16 +55,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onAddProper
             case 'dashboard':
             default:
                 return (
-                    <div className="bg-white p-8 rounded-lg shadow-md">
+                    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-md">
                         <h2 className="text-2xl font-bold text-brand-blue mb-6">Manage Properties</h2>
-                        <div className="overflow-x-auto">
+                        
+                        {/* Desktop Table View */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-left">
-                                <thead className="border-b">
+                                <thead className="border-b bg-slate-50">
                                     <tr>
-                                        <th className="p-4">Name</th>
-                                        <th className="p-4">Location</th>
-                                        <th className="p-4">Price</th>
-                                        <th className="p-4">Actions</th>
+                                        <th className="p-4 font-semibold text-sm text-slate-600 uppercase">Name</th>
+                                        <th className="p-4 font-semibold text-sm text-slate-600 uppercase">Location</th>
+                                        <th className="p-4 font-semibold text-sm text-slate-600 uppercase">Price</th>
+                                        <th className="p-4 font-semibold text-sm text-slate-600 uppercase">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,17 +86,60 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onAddProper
                                 </tbody>
                             </table>
                         </div>
+                        
+                        {/* Mobile Card View */}
+                        <div className="md:hidden space-y-4">
+                            {properties.map(prop => (
+                                <div key={prop.id} className="border rounded-lg p-4 bg-slate-50/50 shadow-sm">
+                                    <h3 className="font-bold text-lg text-brand-blue">{prop.name}</h3>
+                                    <p className="text-sm text-slate-600">{prop.location}</p>
+                                    <p className="text-md font-semibold text-slate-800 mt-2">{prop.price}</p>
+                                    <div className="flex gap-4 mt-4 border-t pt-3">
+                                        <button onClick={() => handleEditClick(prop)} className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 p-1" aria-label="Edit">
+                                            <PencilIcon className="h-4 w-4" /> Edit
+                                        </button>
+                                        <button onClick={() => onDeleteProperty(prop.id)} className="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-800 p-1" aria-label="Delete">
+                                            <TrashIcon className="h-4 w-4" /> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 );
         }
     }
 
     return (
-        <div className="min-h-screen flex bg-brand-light">
-            <AdminSidebar onLogout={onLogout} setView={(v) => { setView(v); setPropertyToEdit(null); }} />
-            <main className="flex-1 p-8 overflow-auto">
-                {renderView()}
-            </main>
+       <div className="relative min-h-screen md:flex bg-brand-light font-sans">
+          {/* Mobile overlay */}
+          {isSidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black/60 z-30 md:hidden"
+              onClick={() => setIsSidebarOpen(false)}
+            ></div>
+          )}
+
+          {/* Sidebar */}
+          <div className={`fixed inset-y-0 left-0 transform ${isSidebarOpen ? 'translateX(0)' : '-translate-x-full'} md:relative md:translate-x-0 transition-transform duration-300 ease-in-out z-40`}>
+            <AdminSidebar onLogout={onLogout} setView={handleSetView} closeSidebar={() => setIsSidebarOpen(false)} />
+          </div>
+
+          {/* Main content */}
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-auto">
+             {/* Mobile Header */}
+            <header className="md:hidden flex justify-between items-center mb-6 pb-4 border-b">
+                <a href="#/" className="flex items-center gap-2">
+                    <HomeIcon className="h-6 w-6 text-brand-blue" />
+                    <span className="text-xl font-serif font-bold text-brand-blue">Luxe</span>
+                </a>
+                <button onClick={() => setIsSidebarOpen(true)} className="p-2 rounded-md hover:bg-slate-200">
+                    <MenuIcon className="h-6 w-6 text-slate-800" />
+                </button>
+            </header>
+            
+            {renderView()}
+          </main>
         </div>
     );
 };

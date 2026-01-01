@@ -10,14 +10,9 @@ interface PropertyDetailProps {
 const PropertyDetail: React.FC<PropertyDetailProps> = ({ property, onBack }) => {
   const [mainImage, setMainImage] = useState(property.image);
 
-  const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    onBack(); // Go back to the main page first
-    setTimeout(() => { // Then scroll to contact section
-      document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-  
+  const whatsAppMessage = encodeURIComponent(`Hello, I'm interested in your listing: ${property.name}.`);
+  const whatsAppLink = `https://wa.me/2348147133637?text=${whatsAppMessage}`;
+
   return (
     <section className="py-12 md:py-16 bg-white animate-fade-in">
       <div className="container mx-auto px-4">
@@ -95,7 +90,7 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property, onBack }) => 
                 </div>
                )}
 
-              <a href="#contact" onClick={scrollToContact} className="w-full block text-center bg-brand-gold text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all">
+              <a href={whatsAppLink} target="_blank" rel="noopener noreferrer" className="w-full block text-center bg-brand-gold text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all">
                 Inquire About This Property
               </a>
             </div>
