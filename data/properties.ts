@@ -1,5 +1,5 @@
 
-import { Property, ListingCategory } from '../types';
+import { Property, ListingCategory } from '../types.ts';
 
 export const propertiesData: Property[] = [
   { 
