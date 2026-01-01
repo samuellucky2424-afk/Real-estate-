@@ -3,18 +3,41 @@ import React, { useState } from 'react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = useState({ email: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const validateEmail = (email: string) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Clear error when user starts typing
+    if (name === 'email' && errors.email) {
+      setErrors({ email: '' });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateEmail(formData.email)) {
+      setErrors({ email: 'Please enter a valid email address (e.g., name@example.com).' });
+      return;
+    }
+
     // In a real app, you would handle form submission here (e.g., API call)
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
     setFormData({ name: '', email: '', message: '' });
+    setErrors({ email: '' });
+    
     setTimeout(() => setIsSubmitted(false), 5000);
   };
 
@@ -62,14 +85,23 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
-                  <input type="email" name="email" id="email" required value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-gold focus:border-brand-gold"/>
+                  <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    required 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    className={`mt-1 block w-full px-3 py-2 bg-white border ${errors.email ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-slate-300 focus:ring-brand-gold focus:border-brand-gold'} rounded-md shadow-sm focus:outline-none`}
+                  />
+                  {errors.email && <p className="mt-1 text-xs text-red-500 font-medium">{errors.email}</p>}
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-slate-700">Message</label>
                   <textarea name="message" id="message" rows={4} required value={formData.message} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-gold focus:border-brand-gold"></textarea>
                 </div>
                 <div>
-                  <button type="submit" className="w-full bg-brand-gold text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all">
+                  <button type="submit" className="w-full bg-brand-gold text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all shadow-md active:scale-[0.98]">
                     Send Message
                   </button>
                 </div>
